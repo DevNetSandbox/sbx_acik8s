@@ -1,13 +1,13 @@
 # ACI/Kubernetes Quick Start Guide
 Follow the below steps to quickly configure and deploy Kubernetes with the ACI CNI plug-in using provided scripts and Ansible playbooks within this repository.  Details about what each step is accomplishing is listed before the command and instructions to complete.  
 
-For a manually, detailed walkthrough of the setup you can complete the [Learning Lab]() (***Coming Soon***), or read through the docs listed in the reference section.  
+For a manually, detailed walkthrough of the setup you can complete the [Learning Lab](https://devnetsandbox.cisco.com/RM/Diagram/Index/29a5baac-bc78-4885-b4ec-83294c64bcc4?diagramType=Topology), or read through the docs listed in the reference section.  
 
 # Table of Contents
 
 * [Connecting to your Sandbox](#connecting-to-your-sandbox)
 * [Preparing your Development Workstation](#preparing-your-development-workstation)
-* [Kubernetes Node Network Preperation](#kubernetes-node-network-preperation)
+* [Kubernetes Node Network Preparation](#kubernetes-node-network-preparation)
 * [Kubernetes Node Prerequisite Installation](#kubernetes-node-prerequisite-installation)
 * [Kubernetes Installation](#kubernetes-installation)
 * [Deploy and Test Your First Applications](#deploy-and-test-your-first-applications)
@@ -169,7 +169,7 @@ You'll be executing all the configuration and installation steps from the devbox
     </details>
 
 
-## Kubernetes Node Network Preperation
+## Kubernetes Node Network Preparation
 Before you can install Kubernetes on your hosts, you'll need to configure the networking within Linux to provide the connectivity paths into the ACI tenant and objects that were created by `acc-provision`.  The topology you'll be creating in this step looks like this.  
 
 ![](readme_images/sbx_topology_network_prep.jpg)
@@ -348,7 +348,7 @@ This step involves creating and customizing the Linux configuration files relate
         </pre>
         </details>    
 
-1. You can also verify the initial network configuration from the APIC.  You should now see the hosts as enteries in the Operational list for the `kube-nodes` EPG.  
+1. You can also verify the initial network configuration from the APIC.  You should now see the hosts as entries in the Operational list for the `kube-nodes` EPG.  
 
     ![](readme_images/aci_kube-nodes_1.png)
 
@@ -357,7 +357,7 @@ With the network configured correctly on your hosts, you can now install the Kub
 
 1. Install Docker
 2. Add Kubernetes Repository to YUM
-3. Install Kuberenetes tools
+3. Install Kubernetes tools
     * kubernetes-cni
     * kubelet
     * kubeadm
@@ -682,7 +682,7 @@ You are now ready to install Kubernetes onto your hosts.  During this phase you'
     </details>
 
 1. Kubernetes is now installed, but as displayed in the output, the nodes are "NotReady".  This is because Kubernetes does NOT include a networking configuration by default.  Next we can install the ACI CNI Plug-in.  
-1. You install a CNI plug-in by applying the Kubernetes "manifest" (application definition) for the plugin.  The ACI CNI manifest is created by `acc-provision` when it prepares the ACI fabric.  As mentioned previously, that step was done for you because it requires Admin rights to the fabric.  The generated manifest file (as well as the configuraiton file for `acc-provision`) are located in the your pods folder within [`kube_setup/aci_setup/`](kube_setup/aci_setup/).  
+1. You install a CNI plug-in by applying the Kubernetes "manifest" (application definition) for the plugin.  The ACI CNI manifest is created by `acc-provision` when it prepares the ACI fabric.  As mentioned previously, that step was done for you because it requires Admin rights to the fabric.  The generated manifest file (as well as the configuration file for `acc-provision`) are located in the your pods folder within [`kube_setup/aci_setup/`](kube_setup/aci_setup/).  
 1. On the devbox, navigate to your pods folder under aci_setup. The file `aci-containers.yaml` is the manifest file you'll deploy.  
 
     ```bash
@@ -929,7 +929,7 @@ As the final step in this quickstart, let's deploy an application to your new cl
     ![](readme_images/myhero_app1.png)
 
 1. Click an image to place a vote, you'll be taken to the results page.  
-1. The web application is communicating with `myhero_app` via it's EXTERNAL-IP which is load balanced with PRB by ACI and directed to the ACI Controlled OVS on one of the nodes, where traffic is finally delivered to one of the running pods.  
+1. The web application is communicating with `myhero_app` via it's EXTERNAL-IP which is load balanced with PBR by ACI and directed to the ACI Controlled OVS on one of the nodes, where traffic is finally delivered to one of the running pods.  
 
     ![](readme_images/aci_k8s_pbr_nat1.jpg)
 
