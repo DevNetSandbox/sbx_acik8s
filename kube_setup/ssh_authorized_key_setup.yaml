@@ -1,0 +1,24 @@
+---
+- openssl_privatekey:
+    path: /etc/ssl/private/ansible.com.pem
+
+- name: Generating RSA key for developer
+  hosts: devbox
+  become: yes
+
+  user:
+    name: root
+    generate_ssh_key: yes
+
+
+# - name: Add devbox ssh key to kube nodes
+#   hosts: kube
+#   become: yes
+#
+#   tasks:
+#   - name: Set authorized key for user ubuntu copying it from current user
+#     authorized_key:
+#       user: developer
+#       state: present
+#       key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+#
