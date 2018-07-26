@@ -1,0 +1,33 @@
+---
+# - openssl_privatekey:
+#     path: /etc/ssl/private/ansible.com.pem
+
+- name: Remove devbox ssh key from kube nodes
+  hosts: kube
+  become: yes
+
+  tasks:
+  - authorized_key:
+      user: developer
+      state: absent
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+
+- name: Delete RSA key for developer
+  hosts: localhost
+  become: yes
+
+  tasks:
+  - name: Remove public key to local authoried_keys
+    authorized_key:
+      user: developer
+      state: absent
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+  - name: Delete RSA Key/pair for developer
+    with_items:
+      - /home/developer/.ssh/id_rsa
+      - /home/developer/.ssh/id_rsa.pub
+    file:
+      path: "{{item}}"
+      state: absent
