@@ -1,0 +1,88 @@
+---
+- name: Reset Kubernetes
+  hosts: kube
+  become: yes
+
+  tasks:
+  - shell: kubeadm reset
+    register: reset
+
+  - debug:
+      msg: "{{reset}}"
+
+- name: Initialize on Kubernetes Master
+  hosts: kube01
+  become: yes
+
+  tasks:
+    - name: Run kubeadmin init on Master
+      when: reset is succeeded
+      shell: |
+        kubeadm init \
+        --token {{token}} \
+        --pod-network-cidr=10.2{{POD_NUM}}.0.1/16 \
+        --service-cidr=192.168.2{{POD_NUM}}.1/24 \
+        --apiserver-advertise-address=172.20.{{POD_NUM}}.11
+      register: init_master
+
+    - debug:
+        msg: "{{init_master}}"
+
+    - name: Create Kubernetes Config directory
+      become: false
+      file:
+        path: "~/.kube"
+        state: directory
+
+    - name: Copy kubeconfig file
+      become: true
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/{{ansible_user}}/.kube/config
+        owner: "{{ansible_user}}"
+        group: "{{ansible_user}}"
+        mode: 0755
+        remote_src: True
+
+    - name: Fetch kubeconfig file
+      fetch:
+        src: /etc/kubernetes/admin.conf
+        dest: files/kubeconfig-sbx{{POD_NUM}}
+        flat: yes
+
+- name: Join nodes to master
+  hosts:
+    - kube02
+    - kube03
+  become: yes
+
+  tasks:
+    - name: Run kubeadm join
+      when: reset is succeeded
+      shell: |
+        kubeadm join \
+        --token {{token}} \
+        {{ hostvars['kube01']['node']['ip'] }}:6443
+      register: join_cluster
+
+    - debug:
+        msg: "{{join_cluster}}"
+
+- name: Setup kubectl on DevBox
+  hosts: devbox
+
+  tasks:
+    - name: Create Kubernetes Config directory
+      become: false
+      file:
+        path: "~/.kube"
+        state: directory
+
+    - name: Copy kubeconfig file
+      become: true
+      copy:
+        src: files/kubeconfig-sbx{{POD_NUM}}
+        dest: /home/{{ansible_user}}/.kube/config
+        owner: "{{ansible_user}}"
+        group: "{{ansible_user}}"
+        mode: 0755

@@ -1,0 +1,11 @@
+---
+- name: Reset Kubernetes
+  hosts: kube
+  become: yes
+
+  tasks:
+  - shell: kubeadm reset
+    register: reset
+
+  - debug:
+      msg: "{{reset}}"
