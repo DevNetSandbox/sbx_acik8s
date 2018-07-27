@@ -48,6 +48,7 @@ ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
   kube_prereq_install.yml
 
 ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
+  --extra-vars "POD_NUM=${POD_NUM}" \
   kube_install.yaml
 
 cd ~/sbx_acik8s/kube_setup/aci_setup/sbx${POD_NUM}
