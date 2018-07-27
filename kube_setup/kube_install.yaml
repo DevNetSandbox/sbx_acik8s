@@ -86,3 +86,27 @@
         owner: "{{ansible_user}}"
         group: "{{ansible_user}}"
         mode: 0755
+
+- name: Fix kube-dns IP in configurations
+  hosts: kube
+  become: yes
+
+  tasks:
+    - name: Remove incorrect line
+      lineinfile:
+        path: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+        state: absent
+        line: Environment="KUBELET_DNS_ARGS=--cluster-dns=10.96.0.10 --cluster-domain=cluster.local"
+
+    - name: Add correct line
+      lineinfile:
+        path: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+        state: present
+        line: Environment="KUBELET_DNS_ARGS=--cluster-dns=192.168.2{{POD_NUM}}.10 --cluster-domain=cluster.local"
+        insertafter: 'Environment="KUBELET_NETWORK_ARGS'
+
+    - name: Restart kubelet
+      systemd:
+        state: restarted
+        daemon_reload: yes
+        name: kubelet
