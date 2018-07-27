@@ -30,10 +30,13 @@ source venv/bin/activate
 pip install -r kube_setup/requirements.txt
 
 cd ~/sbx_acik8s/kube_setup
+
+# temporary for dev
+cd ~/dev/sbx_acik8s/kube_setup
+
 ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
   -e "ansible_ssh_pass=${POD_PASS}" \
   ssh_authorized_key_setup.yaml
-
 
 ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
   kube_devbox_setup.yml
