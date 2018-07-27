@@ -41,7 +41,7 @@ cd ~/sbx_acik8s/kube_setup
 ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
   -e "ansible_ssh_pass=${POD_PASS}" \
   ssh_authorized_key_setup.yaml
-if [ $? ]
+if [ $? -ne 0 ]
 then
   echo "Problem"
   exit 1
@@ -51,7 +51,7 @@ echo " "
 echo "Run kube_devbox_setup.yml"
 ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
   kube_devbox_setup.yml
-if [ $? ]
+if [ $? -ne 0 ]
 then
   echo "Problem"
   exit 1
@@ -61,7 +61,7 @@ echo " "
 echo "Run kube_network_prep.yaml"
 ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
   kube_network_prep.yaml
-if [ $? ]
+if [ $? -ne 0 ]
 then
   echo "Problem"
   exit 1
@@ -71,7 +71,7 @@ echo " "
 echo "Run kube_prereq_install.yml"
 ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
   kube_prereq_install.yml
-if [ $? ]
+if [ $? -ne 0 ]
 then
   echo "Problem"
   exit 1
@@ -82,7 +82,7 @@ echo "Run kube_install.yaml"
 ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
   --extra-vars "POD_NUM=${POD_NUM}" \
   kube_install.yaml
-if [ $? ]
+if [ $? -ne 0 ]
 then
   echo "Problem"
   exit 1
@@ -92,7 +92,7 @@ echo " "
 echo "Install ACI CNI Plugin"
 cd ~/sbx_acik8s/kube_setup/aci_setup/sbx${POD_NUM}
 kubectl apply -f aci-containers.yaml
-if [ $? ]
+if [ $? -ne 0 ]
 then
   echo "Problem"
   exit 1
