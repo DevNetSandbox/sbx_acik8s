@@ -16,7 +16,7 @@ fi
 # 1. Basic DevBox Setup
 #
 echo "Setup DevBox with Development Tools and Repos"
-sudo yum install wget git sshpass
+sudo yum install -y wget git sshpass
 #
 wget https://bootstrap.pypa.io/get-pip.py
 sudo python get-pip.py
