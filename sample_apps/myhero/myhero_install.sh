@@ -9,4 +9,4 @@ MYHERO_APP_EXTERNAL_IP=$(kubectl get services myhero-app -o json | python -c 'im
 
 echo "AP IP: ${MYHERO_APP_EXTERNAL_IP}"
 
-sed -i '.bak' 's/<PROVIDE-EXTERNAL-IP-FOR-myhero-app/MYHERO_APP_EXTERNAL_IP/' myhero_ui.yaml
+sed -i '.bak' 's/<PROVIDE-EXTERNAL-IP-FOR-myhero-app/${MYHERO_APP_EXTERNAL_IP}/' myhero_ui.yaml
