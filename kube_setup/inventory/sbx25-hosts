@@ -6,59 +6,59 @@ all:
     devbox:
       hosts:
         devbox:
-          ansible_host: 172.20.0.6
+          ansible_host: 172.20.0.200
           ansible_user: developer
 
 
     kube:
       hosts:
         kube01:
-          ansible_host: 172.20.0.11
+          ansible_host: 172.20.0.201
           ansible_user: developer
           aci_interface: ens224
           node:
-            ip: 172.20.63.11
+            ip: 172.20.25.11
             prefix: 26
-            network: 172.20.63.0
-            gateway: 172.20.63.1
-            vlan: 901
+            network: 172.20.25.0
+            gateway: 172.20.25.1
+            vlan: 952
           infra:
             vlan: 4093
           service:
-            vlan: 903
+            vlan: 953
           mgmt:
             interface: ens192
 
         kube02:
-          ansible_host: 172.20.0.12
+          ansible_host: 172.20.0.202
           ansible_user: developer
           aci_interface: ens224
           node:
-            ip: 172.20.63.12
+            ip: 172.20.25.12
             prefix: 26
-            network: 172.20.63.0
-            gateway: 172.20.63.1
-            vlan: 901
+            network: 172.20.25.0
+            gateway: 172.20.25.1
+            vlan: 952
           infra:
             vlan: 4093
           service:
-            vlan: 903
+            vlan: 953
           mgmt:
             interface: ens192
 
         kube03:
-          ansible_host: 172.20.0.13
+          ansible_host: 172.20.0.203
           ansible_user: developer
           aci_interface: ens224
           node:
-            ip: 172.20.63.13
+            ip: 172.20.25.13
             prefix: 26
-            network: 172.20.63.0
-            gateway: 172.20.63.1
-            vlan: 901
+            network: 172.20.25.0
+            gateway: 172.20.25.1
+            vlan: 952
           infra:
             vlan: 4093
           service:
-            vlan: 903
+            vlan: 953
           mgmt:
             interface: ens192
