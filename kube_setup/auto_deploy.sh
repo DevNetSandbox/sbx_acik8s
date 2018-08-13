@@ -1,5 +1,13 @@
 #! /bin/bash
 
+# Notes on how to use this script
+# 1. Start VPN and ssh to the Devlopment Workstation in the pod
+# 2. Set session environment variable
+#   export POD_NUM=??
+#   export POD_PASS=??????
+# 3. Run this command to download and run the auto_deploy.sh script
+#   curl -o auto_deploy.sh https://raw.githubusercontent.com/DevNetSandbox/sbx_acik8s/auto_deploy/kube_setup/auto_deploy.sh && chmod +x auto_deploy.sh && ./auto_deploy.sh ${POD_NUM} ${POD_PASS}
+
 POD_NUM=$1
 POD_PASS=$2
 
