@@ -2,39 +2,39 @@
 # These commands include the specific addresses and details
 # per Sandbox Pod
 
-# Commands for Pod SBX00
+# Commands for Pod SBX33
 
 # Command to setup Kubernetes Master.
-# Executed on sbx00kube01
+# Executed on sbx33kube01
 sudo kubeadm init \
-  --pod-network-cidr=10.200.0.1/16 \
-  --service-cidr=192.168.200.1/24 \
-  --apiserver-advertise-address=172.20.63.11
+  --pod-network-cidr=10.233.0.1/16 \
+  --service-cidr=192.168.233.1/24 \
+  --apiserver-advertise-address=172.20.33.11
 
 
 # Commands to setup kubeconfig Kubernetes Master
-# Executed on sbx00kube01
+# Executed on sbx33kube01
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # Sample command to join node to cluster
 #   Use the exact command output on the Master after kubeadm
-# Executed on sbx00kube02 and sbx00kube03
+# Executed on sbx33kube02 and sbx33kube03
 sudo kubeadm join --token TOKEN MASTER_NODE_IP:6443
 
 # Command to copy kubeconfig to devbox
-# Executed on sbx00devbox
+# Executed on sbx33devbox
 mkdir -p $HOME/.kube
-scp developer@172.20.0.11:.kube/config $HOME/.kube/config
+scp developer@172.20.0.233:.kube/config $HOME/.kube/config
 
 # Verify kubectl working on devbox
 kubectl get nodes
 
 # Command to deploy ACI CNI to Kubernetes
-# Executed on sbx00devbox
-kubectl apply -f aci_setup/sbx00/aci-containers.yaml
+# Executed on sbx33devbox
+kubectl apply -f aci_setup/sbx33/aci-containers.yaml
 
 # Command to Check Status of CNI Plugin
-# Executed on sbx00devbox
+# Executed on sbx33devbox
 kubectl --namespace=kube-system get pods -o wide

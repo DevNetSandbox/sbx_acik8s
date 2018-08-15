@@ -4,7 +4,7 @@ metadata:
   name: aci-containers-config
   namespace: kube-system
   labels:
-    aci-containers-config-version: "a300b5ba-3b5c-4a92-b4be-8ca53027a619"
+    aci-containers-config-version: "10632141-a176-4d8d-8ee1-59d111ba0194"
     network-plugin: aci-containers
 data:
   controller-config: |-
@@ -13,16 +13,16 @@ data:
         "apic-hosts": [
             "10.10.20.12"
         ],
-        "apic-username": "kubesbx00",
+        "apic-username": "kubesbx20",
         "apic-private-key-path": "/usr/local/etc/aci-cert/user.key",
-        "aci-prefix": "kubesbx00",
+        "aci-prefix": "kubesbx20",
         "aci-vmm-type": "Kubernetes",
-        "aci-vmm-domain": "kubesbx00",
-        "aci-vmm-controller": "kubesbx00",
-        "aci-policy-tenant": "kubesbx00",
+        "aci-vmm-domain": "kubesbx20",
+        "aci-vmm-controller": "kubesbx20",
+        "aci-policy-tenant": "kubesbx20",
         "require-netpol-annot": false,
-        "aci-service-phys-dom": "kubesbx00-pdom",
-        "aci-service-encap": "vlan-903",
+        "aci-service-phys-dom": "kubesbx20-pdom",
+        "aci-service-encap": "vlan-943",
         "aci-service-monitor-interval": 15,
         "aci-vrf-tenant": "common",
         "aci-l3out": "sbx_shared_L3Out",
@@ -31,64 +31,64 @@ data:
         ],
         "aci-vrf": "sbx_shared",
         "default-endpoint-group": {
-            "policy-space": "kubesbx00",
+            "policy-space": "kubesbx20",
             "name": "kubernetes|kube-default"
         },
         "namespace-default-endpoint-group": {
             "kube-system": {
-                "policy-space": "kubesbx00",
+                "policy-space": "kubesbx20",
                 "name": "kubernetes|kube-system"
             }
         },
         "service-ip-pool": [
             {
-                "start": "172.20.63.194", 
-                "end": "172.20.63.222"
+                "start": "172.20.20.194", 
+                "end": "172.20.20.222"
             }
         ],
         "static-service-ip-pool": [
             {
-                "start": "172.20.63.226", 
-                "end": "172.20.63.254"
+                "start": "172.20.20.226", 
+                "end": "172.20.20.254"
             }
         ],
         "pod-ip-pool": [
             {
-                "start": "10.200.0.2", 
-                "end": "10.200.255.254"
+                "start": "10.220.0.2", 
+                "end": "10.220.255.254"
             }
         ],
         "node-service-ip-pool": [
             {
-                "start": "192.168.100.2", 
-                "end": "192.168.100.254"
+                "start": "192.168.120.2", 
+                "end": "192.168.120.254"
             }
         ],
         "node-service-subnets": [
-            "192.168.100.1/24"
+            "192.168.120.1/24"
         ]
     }
   host-agent-config: |-
     {
         "log-level": "info",
         "aci-vmm-type": "Kubernetes",
-        "aci-vmm-domain": "kubesbx00",
-        "aci-vmm-controller": "kubesbx00",
+        "aci-vmm-domain": "kubesbx20",
+        "aci-vmm-controller": "kubesbx20",
         "aci-vrf": "sbx_shared",
         "aci-vrf-tenant": "common",
-        "service-vlan": 903,
+        "service-vlan": 943,
         "encap-type": "vxlan",
         "aci-infra-vlan": 4093,
         "cni-netconfig": [
             {
                 "routes": [
                     {
-                        "gw": "10.200.0.1", 
+                        "gw": "10.220.0.1", 
                         "dst": "0.0.0.0/0"
                     }
                 ], 
-                "subnet": "10.200.0.0/16", 
-                "gateway": "10.200.0.1"
+                "subnet": "10.220.0.0/16", 
+                "gateway": "10.220.0.1"
             }
         ]
     }
@@ -107,10 +107,10 @@ metadata:
   name: aci-user-cert
   namespace: kube-system
   labels:
-    aci-containers-config-version: "a300b5ba-3b5c-4a92-b4be-8ca53027a619"
+    aci-containers-config-version: "10632141-a176-4d8d-8ee1-59d111ba0194"
 data:
-  user.key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUNlQUlCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQW1Jd2dnSmVBZ0VBQW9HQkFMUHUvVG1Ba21pczJJbWUKa21wckoxSmRpZWNNZGM3N2lyV0ZaM2RXVlRMRjdDNlFUZzJNMWRscW9JMFRmVklOVVBUaVI0NTVYWTNPMS9CbwpwT3lZUmZ4dnlteFBkZWtPT0JXSDRxWTErSkVhMnJRYVpzNGN4K1NNN3hGYkcvVkN5N004b1Uzak0xQkxKalUyCm80Z09pd1RVK3RVS0J4NUN2TVdhNkJlSVY2Nm5BZ01CQUFFQ2dZRUFpN0h6Vlc1MXZPRGM2Tk44OXpRai9qVnkKK0RmYlN3eE4zNm9uN3lYTzFiR0dNWXlGbk0ySHhkbWJ0b3U0RXprVmJsb3psZkN4Nm9QNWNNTzlyNVoxVmo0NgpjOW1admhZSlhteUJaRXI0RHE1UlhPR0dyZEIyV21kQmFsaC9CeERJbUg0OHRJZnpJNmFiRDNnT0kxMUsvMzd6CnVIYm5Ga3N6bkRTb0pzbll1S0VDUVFEbmVjUHNaUjNqSnVzRkx2MExJWHo0S1Y1VUVYcHdScXdjb2VBS1VzN3oKS0dHVXJlOUl1UTZVcnV4VTd2MzVXNmZKZ1dmTjRiM1M5aGlJS0JhTW9hcnhBa0VBeHY5RDU5bVdFdExnS3dHZgpYK0Q4dFNwRE14YU4xZVJNWm1hWHg0ZFl5K3lNZ09nS1JRd0VUN3pESDJsaVVCU0VhbFdTTzNxbG9aeXYrdUp3CjhOaURGd0pCQUo4bHpmb0RUN2cwc3RPZWllWVVRVHJTSG9QSWZKa2pUZ1JsbTRjZGhpSVNlbnpoMWFuM2FqbjUKeG8xaXdBV282Y1NXajBzelVQTHh0czR1V2NxWkFORUNRQmlmU3hxcjdJckZ0dUQ3WVdudW43WVcxWnZEcGFjYQppVzErTWplSkFxNnd4UzNLQ0VORTJsKzNYbmxMZzlPZXhrZVY4UE1WR050blZNcjVLN3BSUDk4Q1FRREg5TFFOCkFGSTBha0hueXZEUmRRKzlqMmlFNXhaV3hrUytNKzlIR3orOW05Tm0xcTNSQkdpWldzSS9GUHEvdFM4S2N6MVIKMmExN0hEaDZSSDVyVGRzegotLS0tLUVORCBQUklWQVRFIEtFWS0tLS0tCg==
-  user.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUI3RENDQVZVQ0FnUG9NQTBHQ1NxR1NJYjNEUUVCQlFVQU1ENHhDekFKQmdOVkJBWVRBbFZUTVJZd0ZBWUQKVlFRS0RBMURhWE5qYnlCVGVYTjBaVzF6TVJjd0ZRWURWUVFEREE1VmMyVnlJR3QxWW1WelluZ3dNREFlRncweApPREExTXpFeE5ETTBOVEJhRncweU9EQTFNamt3TWpNME5UQmFNRDR4Q3pBSkJnTlZCQVlUQWxWVE1SWXdGQVlEClZRUUtEQTFEYVhOamJ5QlRlWE4wWlcxek1SY3dGUVlEVlFRRERBNVZjMlZ5SUd0MVltVnpZbmd3TURDQm56QU4KQmdrcWhraUc5dzBCQVFFRkFBT0JqUUF3Z1lrQ2dZRUFzKzc5T1lDU2FLellpWjZTYW1zblVsMko1d3gxenZ1Swp0WVZuZDFaVk1zWHNMcEJPRFl6VjJXcWdqUk45VWcxUTlPSkhqbmxkamM3WDhHaWs3SmhGL0cvS2JFOTE2UTQ0CkZZZmlwalg0a1JyYXRCcG16aHpINUl6dkVWc2I5VUxMc3p5aFRlTXpVRXNtTlRhamlBNkxCTlQ2MVFvSEhrSzgKeFpyb0Y0aFhycWNDQXdFQUFUQU5CZ2txaGtpRzl3MEJBUVVGQUFPQmdRQ1gzRUdESFdOUG95cCtPcmd6MTFzTApNMFFZMEpCaVU5ZVNEZkN0dXFISVpONUF0QjM2SUcxSFdxY21KSzZXbE0yeUhwcm44c0dBVXlBWlRpNTFsbHFECktvWm1ITjU5ZGp0bTlPZnBhYy9tQThoUzFOSHAzNjJxUzVQbG1qRDR4ZXVQYjNEbGc0Y1dzUUhWV3oxdUJpSnAKUzF3T3ZUMFkxWGt1M0szbm12MEUvdz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+  user.key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUNkd0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQW1Fd2dnSmRBZ0VBQW9HQkFNWm8yOG45bkxzRHFZdzAKa2ZTUmVZQXIrWE9jK2o3VmFBN3A2ZWRYaDEvRDFPUkZJUWdQU0xFZUp1LzF0NGpyRkMzV2FiaGIvMTdZZmc4SQp1S2QvcDFlTU9sYUx6MFQzSFBDMGpmbDZPWVlqLzhlSFg4ejdPalhiaWNYUWtUbnVlMjNGZ2N5STUwSStOK2ZMCmIvVUd5bW10TG1KWU5OdnpkOGMyRUJmQTRtTFRBZ01CQUFFQ2dZQkdQSmlSeU5YUzNsa0c2UlZDSHIyRVFnenMKZ0lXVitMWDlrWkRiOUlCWHhsdDI4NEhkK0lzaktDbGdpUHVQM0tnb0VkOGJCSFpDZlNFaThWTnMrQ09rbWFiLwoxY2RuTUx4QWtDTmZQK21iSktLRDcwd3FJNEJHKy9qNDI4YTN1ZkRoTGNjQS9JcVlUSmpzbXJ6V2hNZWplVXRZCkt1NlZPeWdhMytPNEtXcG9BUUpCQVA0c1lhVXd6U2pyUW53R1ZrcGlLUzBwWkJCNDVwUjdWaDBVTXhRNjNnK08KQjN1NHVJVU91dnI2aVZUTTUzSXNSYWhQZGRkOVhSaXNiK2hXWko0TVFDRUNRUURIMWVLVE5PeHFsTFkwbWk2ZwpZaS8yZ3B2RHMydFpOblhhdFVGSy91MVhtQUNiOStER29aRS9LbUJkZGw4aExGbXVNbXFyQThPYU5LMEZBR2g4CmZ4UnpBa0VBc3FxWDZQcW8vSDZET1pOcXpOYTdneGQ1VTJycENxNjRGYkRCUnhNcVRWelZQYzdYUmhEWXR0dXQKOVlJam4wb25uT3hlTlovVjlTWWhjL3htdGdKK2dRSkFWWFF3SEpVQUdCK1p2dXJEejQvTlJOUGJPaGVxYXc3dgozT092bFJ0b2NSR3VDUVE1MlpiVG5yaEhWeEE4WTlvc1MyS0IzTG1TVm9uNkJ1NkN2K0l6NHdKQkFJOEtuYVg3CjRSUldpU2swMnlDM3pEd1gwTU1LRzYwR2lvUnFSQ3FJWVpoaGNTVXMvZmhpb0FjTkxPcklyZ2xkSGgyczZLdnEKZkt6WnYxMGZvY1dWdzAwPQotLS0tLUVORCBQUklWQVRFIEtFWS0tLS0tCg==
+  user.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUI3RENDQVZVQ0FnUG9NQTBHQ1NxR1NJYjNEUUVCQlFVQU1ENHhDekFKQmdOVkJBWVRBbFZUTVJZd0ZBWUQKVlFRS0RBMURhWE5qYnlCVGVYTjBaVzF6TVJjd0ZRWURWUVFEREE1VmMyVnlJR3QxWW1WelluZ3lNREFlRncweApPREE0TURrd05UVXpNamhhRncweU9EQTRNRFl4TnpVek1qaGFNRDR4Q3pBSkJnTlZCQVlUQWxWVE1SWXdGQVlEClZRUUtEQTFEYVhOamJ5QlRlWE4wWlcxek1SY3dGUVlEVlFRRERBNVZjMlZ5SUd0MVltVnpZbmd5TURDQm56QU4KQmdrcWhraUc5dzBCQVFFRkFBT0JqUUF3Z1lrQ2dZRUF4bWpieWYyY3V3T3BqRFNSOUpGNWdDdjVjNXo2UHRWbwpEdW5wNTFlSFg4UFU1RVVoQ0E5SXNSNG03L1czaU9zVUxkWnB1RnYvWHRoK0R3aTRwMytuVjR3NlZvdlBSUGNjCjhMU04rWG81aGlQL3g0ZGZ6UHM2TmR1SnhkQ1JPZTU3YmNXQnpJam5RajQzNTh0djlRYkthYTB1WWxnMDIvTjMKeHpZUUY4RGlZdE1DQXdFQUFUQU5CZ2txaGtpRzl3MEJBUVVGQUFPQmdRQUprd3JMM0gvRitBOUR4b2FPeDRiUwprUVY3aVI3bWQwZlBXaFB1T2poVFFMaU9UYmtxaER1V1pRUlhSQkxOUVgvMlJiUjErbVpsQmdIeDh5ZXpLS3l4CkVFUmgzdVVHYTQxYWJHU2hxc0RweTEvckIzU2pOdWxpdDc4S0hqZmpxbjM0aVN6eFZ3NGJWclRrVTI1aitYTWMKTDhJM0NyU1FlWDFVVWtTWkV2MXhQQT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -118,7 +118,7 @@ metadata:
   name: aci-containers-controller
   namespace: kube-system
   labels:
-    aci-containers-config-version: "a300b5ba-3b5c-4a92-b4be-8ca53027a619"
+    aci-containers-config-version: "10632141-a176-4d8d-8ee1-59d111ba0194"
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -126,13 +126,13 @@ metadata:
   name: aci-containers-host-agent
   namespace: kube-system
   labels:
-    aci-containers-config-version: "a300b5ba-3b5c-4a92-b4be-8ca53027a619"
+    aci-containers-config-version: "10632141-a176-4d8d-8ee1-59d111ba0194"
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
   labels:
-    aci-containers-config-version: "a300b5ba-3b5c-4a92-b4be-8ca53027a619"
+    aci-containers-config-version: "10632141-a176-4d8d-8ee1-59d111ba0194"
     network-plugin: aci-containers
   name: aci-containers:controller
 rules:
@@ -178,7 +178,7 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
   labels:
-    aci-containers-config-version: "a300b5ba-3b5c-4a92-b4be-8ca53027a619"
+    aci-containers-config-version: "10632141-a176-4d8d-8ee1-59d111ba0194"
     network-plugin: aci-containers
   name: aci-containers:host-agent
 rules:
@@ -199,7 +199,7 @@ kind: ClusterRoleBinding
 metadata:
   name: aci-containers:controller
   labels:
-    aci-containers-config-version: "a300b5ba-3b5c-4a92-b4be-8ca53027a619"
+    aci-containers-config-version: "10632141-a176-4d8d-8ee1-59d111ba0194"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -214,7 +214,7 @@ kind: ClusterRoleBinding
 metadata:
   name: aci-containers:host-agent
   labels:
-    aci-containers-config-version: "a300b5ba-3b5c-4a92-b4be-8ca53027a619"
+    aci-containers-config-version: "10632141-a176-4d8d-8ee1-59d111ba0194"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -230,7 +230,7 @@ metadata:
   name: aci-containers-host
   namespace: kube-system
   labels:
-    aci-containers-config-version: "a300b5ba-3b5c-4a92-b4be-8ca53027a619"
+    aci-containers-config-version: "10632141-a176-4d8d-8ee1-59d111ba0194"
     network-plugin: aci-containers
 spec:
   updateStrategy:
@@ -354,7 +354,7 @@ metadata:
   name: aci-containers-openvswitch
   namespace: kube-system
   labels:
-    aci-containers-config-version: "a300b5ba-3b5c-4a92-b4be-8ca53027a619"
+    aci-containers-config-version: "10632141-a176-4d8d-8ee1-59d111ba0194"
     network-plugin: aci-containers
 spec:
   updateStrategy:
@@ -429,7 +429,7 @@ metadata:
   name: aci-containers-controller
   namespace: kube-system
   labels:
-    aci-containers-config-version: "a300b5ba-3b5c-4a92-b4be-8ca53027a619"
+    aci-containers-config-version: "10632141-a176-4d8d-8ee1-59d111ba0194"
     network-plugin: aci-containers
     name: aci-containers-controller
 spec:
