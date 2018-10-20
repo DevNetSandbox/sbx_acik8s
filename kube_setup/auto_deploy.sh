@@ -6,7 +6,7 @@
 #   export POD_NUM=??
 #   export POD_PASS=??????
 # 3. Run this command to download and run the auto_deploy.sh script
-#   curl -o auto_deploy.sh https://raw.githubusercontent.com/DevNetSandbox/sbx_acik8s/auto_deploy/kube_setup/auto_deploy.sh && chmod +x auto_deploy.sh && ./auto_deploy.sh ${POD_NUM} ${POD_PASS}
+#   curl -o auto_deploy.sh https://raw.githubusercontent.com/DevNetSandbox/sbx_acik8s/auto_deploy/kube_setup/auto_deploy.sh && chmod +x auto_deploy.sh && ./auto_deploy.sh ${POD_NUM} ${POD_PASS} ${DEPLOY_STAGE}
 
 POD_NUM=$1
 POD_PASS=$2
@@ -21,7 +21,7 @@ POD_PASS=$2
 #    x) full    - Full setup (functionally same as previous stage)
 DEPLOY_PHASE=$3
 
-
+# Verify required inputs have been provided
 if [ -z ${POD_NUM} ] || [ -z ${POD_PASS} ] || [ -z ${DEPLOY_PHASE} ]
 then
   echo "You mush provide a pod number and pod password."
@@ -38,19 +38,32 @@ then
   exit
 fi
 
-echo "Pod Number: ${POD_NUM}"
-echo "Pod Password: ${POD_PASS}"
+echo "Auto Deployment of Kubernetes with ACI CNI Sandbox requested for: "
+echo "  Pod Number: ${POD_NUM}"
+echo "  Pod Password: ${POD_PASS}"
 
+# Verify a valid deploy phase was provided
 case ${DEPLOY_PHASE} in
   devbox|network|prereq|k8s|cni|full) echo "Deploy Stage: ${DEPLOY_PHASE}";;
-  *) echo "Requested Deploy Stage of '${DEPLOY_PHASE}' not valid"; exit;
+  *) echo "  Requested Deploy Stage of '${DEPLOY_PHASE}' not valid"; exit;
 esac
 
-exit
+# Final confirmation before beginning
+echo "Would you like to continue? [yes/no] "
+read CONFIRM
+if [ ${CONFIRM} != "yes" ]
+then
+  echo "Auto Deployment Canceled."
+  exit
+fi
+
+echo "Beginning Auto Deployment of Kubernetes with ACI CNI Sandbox."
+echo " "
+
 
 # Stage 1) devbox Basic DevBox Setup
 echo "Setup DevBox with Development Tools and Repos"
-sudo yum install -y wget git sshpass >> ~/auto_deploy.log 2>&1
+sudo yum install -y wget git nano sshpass >> ~/auto_deploy.log 2>&1
 wget https://bootstrap.pypa.io/get-pip.py  >> ~/auto_deploy.log 2>&1
 sudo python get-pip.py  >> ~/auto_deploy.log 2>&1
 rm get-pip.py  >> ~/auto_deploy.log 2>&1
@@ -89,6 +102,17 @@ then
   exit 1
 fi
 echo " "
+
+# End if this stage was requested
+if [ ${DEPLOY_PHASE} == "devbox" ]
+then
+  echo "Requested Phase 'devbox' complete."
+  exit
+fi
+
+# DEV BREAK
+echo "DEVELOPMENT STOP: EXITING"
+exit
 
 # Stage 2) network - Setup Network Plumbing on Kubernetes Nodes
 echo "Run kube_network_prep.yaml"
