@@ -82,9 +82,6 @@ sudo pip install virtualenv  >> ~/auto_deploy.log 2>&1
 git clone https://github.com/DevNetSandbox/sbx_acik8s ~/sbx_acik8s >> ~/auto_deploy.log 2>&1
 cd ~/sbx_acik8s >> ~/auto_deploy.log 2>&1
 
-# temporary for dev
-git fetch && git checkout auto_deploy
-
 virtualenv venv >> ~/auto_deploy.log 2>&1
 source venv/bin/activate >> ~/auto_deploy.log 2>&1
 pip install -r kube_setup/requirements.txt  >> ~/auto_deploy.log 2>&1
