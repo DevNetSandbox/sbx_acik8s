@@ -1,0 +1,66 @@
+---
+- name: Setup ACI Objects for Namespace Isolation
+  hosts: apic
+  connection: local
+  gather_facts: False
+
+  vars_prompt:
+    - name: "username"
+      prompt: "What is your APIC username? This would have been provided in your Sandbox reservation details"
+      private: no
+    - name: "password"
+      prompt: "What is your APIC password? This would have been provided in your Sandbox reservation details"
+      private: no
+    - name: "podnum"
+      prompt: "What is your 2 digit pod number? If your in SBX03, enter 03."
+      private: no
+
+
+  tasks:
+    # Create EPG
+    - name: Create Namespace EPG
+      aci_epg:
+        host: "{{ ansible_host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: False
+        state: present
+        tenant: kubesbx{{ podnum }}
+        ap: kubernetes
+        epg: "ns-{{ namespace.name }}"
+        description: "{{ namespace.description }}"
+        bd: kube-pod-bd
+
+    # Bind vSphere VMM Domain to Management EPG
+    - name: Add Kubernetes VMM Domain to EPG
+      aci_epg_to_domain:
+        host: "{{ ansible_host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: False
+        state: present
+        tenant: kubesbx{{ podnum }}
+        ap: kubernetes
+        epg: "ns-{{ namespace.name }}"
+        domain: kubesbx{{ podnum }}
+        domain_type: "vmm"
+        vm_provider: "kubernetes"
+        encap_mode: "auto"
+        # encap: "{{ item.encap }}"
+
+    # Add Contracts to EPG
+    - name: Add Standard Contracts
+      with_items: "{{ standard_contracts }}"
+      loop_control:
+        pause: 1
+      aci_epg_to_contract:
+        host: "{{ ansible_host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: False
+        state: present
+        tenant: kubesbx{{ podnum }}
+        ap: kubernetes
+        epg: "ns-{{ namespace.name }}"
+        contract: "{{ item.name }}"
+        contract_type: "{{ item.type }}"

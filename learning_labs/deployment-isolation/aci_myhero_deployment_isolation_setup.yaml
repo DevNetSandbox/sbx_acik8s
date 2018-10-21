@@ -1,0 +1,141 @@
+---
+- name: Setup ACI Objects for Deployment Isolation
+  hosts: apic
+  connection: local
+  gather_facts: False
+
+  vars_prompt:
+    - name: "username"
+      prompt: "What is your APIC username? This would have been provided in your Sandbox reservation details"
+      private: no
+    - name: "password"
+      prompt: "What is your APIC password? This would have been provided in your Sandbox reservation details"
+      private: no
+    - name: "podnum"
+      prompt: "What is your 2 digit pod number? If your in SBX03, enter 03."
+      private: no
+
+
+  tasks:
+    - name: Create Filters
+      aci_filter:
+        host: "{{ ansible_host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: False
+        state: "present"
+        tenant: "kubesbx{{ podnum }}"
+        filter: "{{ item.filter }}"
+        descr: "{{ item.description }}"
+      with_items: "{{ myhero.filters }}"
+
+    - name: Create Filter Entries
+      aci_filter_entry:
+        host: "{{ ansible_host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: False
+        state: "present"
+        tenant: "kubesbx{{ podnum }}"
+        filter: "{{ item.filter }}"
+        entry: "{{ item.entry }}"
+        ether_type: "ip"
+        ip_protocol: "{{ item.protocol }}"
+        dst_port_start: "{{ item.port }}"
+        dst_port_end: "{{ item.port }}"
+      with_items: "{{ myhero.filters }}"
+
+    - name: Create Contracts
+      aci_contract:
+        host: "{{ ansible_host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: False
+        state: "present"
+        tenant: "kubesbx{{ podnum }}"
+        contract: "{{ item.contract }}"
+        scope: "{{ item.scope }}"
+        description: "{{ item.description }}"
+      with_items: "{{ myhero.contracts }}"
+
+    - name: Create Contract Subjects
+      aci_contract_subject:
+        host: "{{ ansible_host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: False
+        state: "present"
+        tenant: "kubesbx{{ podnum }}"
+        contract: "{{ item.contract }}"
+        subject: "{{ item.subject }}"
+      with_items: "{{ myhero.contracts }}"
+
+    - name: Create Contract Subject Filters
+      aci_contract_subject_to_filter:
+        host: "{{ ansible_host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: False
+        state: "present"
+        tenant: "kubesbx{{ podnum }}"
+        contract: "{{ item.contract }}"
+        subject: "{{ item.subject }}"
+        filter: "{{ item.filter }}"
+      with_items: "{{ myhero.contracts }}"
+
+    - name: Create Application Profile
+      aci_ap:
+        host: "{{ ansible_host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: False
+        state: "present"
+        tenant: "kubesbx{{ podnum }}"
+        ap: "{{ myhero.appprofile.name }}"
+        descr: "{{ myhero.appprofile.description }}"
+
+    - name: Create EPGs
+      aci_epg:
+        host: "{{ ansible_host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: False
+        state: "present"
+        tenant: "kubesbx{{ podnum }}"
+        ap: "{{ myhero.appprofile.name }}"
+        epg: "{{ item.name }}"
+        bd: "{{ item.bd }}"
+        descr: "{{ item.description }}"
+      with_items: "{{ myhero.appprofile.epgs }}"
+
+    - name: Bind Kubernetes Domain to EPG
+      aci_epg_to_domain:
+        host: "{{ ansible_host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: False
+        state: "present"
+        tenant: "kubesbx{{ podnum }}"
+        ap: "{{ myhero.appprofile.name }}"
+        epg: "{{ item.name }}"
+        domain: kubesbx{{ podnum }}
+        domain_type: "vmm"
+        vm_provider: "kubernetes"
+        encap_mode: "auto"
+      with_items: "{{ myhero.appprofile.epgs }}"
+
+    - name: Setup Contracts on EPGs
+      aci_epg_to_contract:
+        host: "{{ ansible_host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: False
+        state: "present"
+        tenant: "kubesbx{{ podnum }}"
+        ap: "{{ myhero.appprofile.name }}"
+        epg: "{{ item.0.name }}"
+        contract: "{{ item.1.name }}"
+        contract_type: "{{ item.1.type }}"
+      with_subelements:
+        - "{{ myhero.appprofile.epgs }}"
+        - contracts

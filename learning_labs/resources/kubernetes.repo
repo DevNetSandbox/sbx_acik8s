@@ -1,0 +1,7 @@
+[kubernetes]
+baseurl = https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+gpgcheck = 0
+gpgkey = https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+name = Kubernetes
+repo_gpgcheck = 0
+

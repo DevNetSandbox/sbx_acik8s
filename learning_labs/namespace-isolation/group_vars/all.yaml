@@ -1,0 +1,116 @@
+standard_contracts:
+  - name: icmp
+    type: consumer
+  - name: dns
+    type: consumer
+  - name: health-check
+    type: provider
+  - name: "kubesbx{{ podnum }}-l3out-allow-all"
+    type: consumer
+namespace:
+  name: myhero
+  description: Kubernetes Namespace Isolation Policy
+myhero:
+  appprofile:
+    name: myhero
+    description: MyHero Application with Deployment Segmentation
+    epgs:
+      - name: myhero-data
+        bd: kube-pod-bd
+        description: MyHero Data Service
+        contracts:
+          - name: icmp
+            type: consumer
+          - name: dns
+            type: consumer
+          - name: health-check
+            type: provider
+          - name: myhero-data
+            type: provider
+      - name: myhero-ernst
+        bd: kube-pod-bd
+        description: MyHero Ernst Service
+        contracts:
+          - name: icmp
+            type: consumer
+          - name: dns
+            type: consumer
+          - name: health-check
+            type: provider
+          - name: myhero-data
+            type: consumer
+          - name: myhero-mosca
+            type: consumer
+      - name: myhero-mosca
+        bd: kube-pod-bd
+        description: Myhero Mosca Service
+        contracts:
+          - name: icmp
+            type: consumer
+          - name: dns
+            type: consumer
+          - name: health-check
+            type: provider
+          - name: myhero-mosca
+            type: provider
+      - name: myhero-app
+        bd: kube-pod-bd
+        description: MyHero App Service
+        contracts:
+          - name: icmp
+            type: consumer
+          - name: dns
+            type: consumer
+          - name: health-check
+            type: provider
+          - name: "kubesbx{{ podnum }}-l3out-allow-all"
+            type: consumer
+          - name: myhero-app
+            type: provider
+          - name: myhero-data
+            type: consumer
+          - name: myhero-mosca
+            type: consumer
+      - name: myhero-ui
+        bd: kube-pod-bd
+        description: MyHero UI Service
+        contracts:
+          - name: icmp
+            type: consumer
+          - name: dns
+            type: consumer
+          - name: health-check
+            type: provider
+          - name: "kubesbx{{ podnum }}-l3out-allow-all"
+            type: consumer
+          - name: myhero-ui
+            type: provider
+          - name: myhero-app
+            type: consumer
+  filters:
+    - filter: "tcp"
+      entry: "tcp"
+      protocol: "tcp"
+      port: "unspecified"
+      description: General Purpose TCP Filter
+  contracts:
+    - contract: "myhero-data"
+      subject: "tcp"
+      filter: "tcp"
+      scope: "context"
+      description: Created for MyHero Application
+    - contract: "myhero-app"
+      subject: "tcp"
+      filter: "tcp"
+      scope: "context"
+      description: Created for MyHero Application
+    - contract: "myhero-ui"
+      subject: "tcp"
+      filter: "tcp"
+      scope: "context"
+      description: Created for MyHero Application
+    - contract: "myhero-mosca"
+      subject: "tcp"
+      filter: "tcp"
+      scope: "context"
+      description: Created for MyHero Application
