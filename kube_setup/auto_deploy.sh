@@ -63,6 +63,13 @@ fi
 echo "Beginning Auto Deployment of Kubernetes with ACI CNI Sandbox."
 echo " "
 
+# prints colored text
+success () {
+    COLOR="92m"; # green
+    STARTCOLOR="\e[$COLOR";
+    ENDCOLOR="\e[0m";
+    printf "$STARTCOLOR%b$ENDCOLOR" "done\n";
+}
 
 # Stage 1) devbox Basic DevBox Setup
 echo "Setup DevBox with Development Tools and Repos"
@@ -82,6 +89,7 @@ virtualenv venv >> ~/auto_deploy.log 2>&1
 source venv/bin/activate >> ~/auto_deploy.log 2>&1
 pip install -r kube_setup/requirements.txt  >> ~/auto_deploy.log 2>&1
 
+success
 echo " "
 
 echo "Create and deploy RSA keys for passwordless login to pod nodes from DevBox"
@@ -94,6 +102,7 @@ then
   echo "Problem"
   exit 1
 fi
+success
 echo " "
 
 echo "Run kube_devbox_setup.yml"
@@ -104,6 +113,7 @@ then
   echo "Problem"
   exit 1
 fi
+success
 echo " "
 
 # End if this stage was requested
@@ -122,6 +132,7 @@ then
   echo "Problem"
   exit 1
 fi
+success
 echo " "
 
 # End if this stage was requested
@@ -140,6 +151,7 @@ then
   echo "Problem"
   exit 1
 fi
+success
 echo " "
 
 # End if this stage was requested
@@ -159,6 +171,7 @@ then
   echo "Problem"
   exit 1
 fi
+success
 echo " "
 
 # End if this stage was requested
@@ -177,6 +190,7 @@ then
   echo "Problem"
   exit 1
 fi
+success
 echo " "
 
 # End if this stage was requested
