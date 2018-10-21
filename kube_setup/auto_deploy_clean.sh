@@ -8,7 +8,7 @@
 #   export POD_NUM=??
 #   export POD_PASS=??????
 # 3. Run the script
-#   ./auto_deploy_clean.sh ${POD_NUM} ${POD_PASS} 
+#   ./auto_deploy_clean.sh ${POD_NUM} ${POD_PASS}
 
 
 POD_NUM=$1
@@ -23,6 +23,9 @@ then
   echo " ./auto_deploy_clean.sh POD_NUM POD_PASS"
   exit
 fi
+
+# Activate the venv for the project
+source ../venv/bin/activate
 
 ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
   -e "ansible_ssh_pass=${POD_PASS}" \
