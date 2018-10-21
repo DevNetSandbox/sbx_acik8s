@@ -1,6 +1,7 @@
 #! /bin/bash
 
-# 
+# Script to Automatically Setup the DevNet ACI/Kubernetes Sandbox to different
+# states.
 
 # Notes on how to use this script
 # 1. Start VPN and ssh to the Devlopment Workstation in the pod
@@ -112,10 +113,6 @@ then
   exit
 fi
 
-# DEV BREAK
-echo "DEVELOPMENT STOP: EXITING"
-exit
-
 # Stage 2) network - Setup Network Plumbing on Kubernetes Nodes
 echo "Run kube_network_prep.yaml"
 ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
@@ -127,6 +124,13 @@ then
 fi
 echo " "
 
+# End if this stage was requested
+if [ ${DEPLOY_PHASE} == "network" ]
+then
+  echo "Requested Phase 'network' complete."
+  exit
+fi
+
 # Stage 3) prereq - Install prereqs for Kubernetes and prep Linux
 echo "Run kube_prereq_install.yml"
 ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
@@ -137,6 +141,13 @@ then
   exit 1
 fi
 echo " "
+
+# End if this stage was requested
+if [ ${DEPLOY_PHASE} == "prereq" ]
+then
+  echo "Requested Phase 'prereq' complete."
+  exit
+fi
 
 # Stage 4) k8s - Setup a new Kubernetes Cluster
 echo "Run kube_install.yaml"
@@ -150,6 +161,13 @@ then
 fi
 echo " "
 
+# End if this stage was requested
+if [ ${DEPLOY_PHASE} == "k8s" ]
+then
+  echo "Requested Phase 'k8s' complete."
+  exit
+fi
+
 # Stage 5) cni - Install ACI CNI plug-in for Kubernetes
 echo "Install ACI CNI Plugin"
 cd ~/sbx_acik8s/kube_setup/aci_setup/sbx${POD_NUM}
@@ -160,3 +178,20 @@ then
   exit 1
 fi
 echo " "
+
+# End if this stage was requested
+if [ ${DEPLOY_PHASE} == "cni" ]
+then
+  echo "Requested Phase 'cni' complete."
+  exit
+fi
+
+
+
+
+# End if this stage was requested
+if [ ${DEPLOY_PHASE} == "full" ]
+then
+  echo "Requested Phase 'full' complete."
+  exit
+fi
