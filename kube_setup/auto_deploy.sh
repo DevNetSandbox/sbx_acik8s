@@ -105,7 +105,8 @@ fi
 success
 echo " "
 
-echo "Run kube_devbox_setup.yml"
+# echo "Run kube_devbox_setup.yml"
+echo "Installing Kubernetes admin tools onto DevBox"
 ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
   kube_devbox_setup.yml  >> ~/auto_deploy.log 2>&1
 if [ $? -ne 0 ]
@@ -124,7 +125,8 @@ then
 fi
 
 # Stage 2) network - Setup Network Plumbing on Kubernetes Nodes
-echo "Run kube_network_prep.yaml"
+# echo "Run kube_network_prep.yaml"
+echo "Configuring Linux network plumbing on Kubernetes nodes."
 ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
   kube_network_prep.yaml  >> ~/auto_deploy.log 2>&1
 if [ $? -ne 0 ]
@@ -143,7 +145,8 @@ then
 fi
 
 # Stage 3) prereq - Install prereqs for Kubernetes and prep Linux
-echo "Run kube_prereq_install.yml"
+# echo "Run kube_prereq_install.yml"
+echo "Installing prerequisites and preparing Linux on Kuberentes nodes."
 ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
   kube_prereq_install.yml  >> ~/auto_deploy.log 2>&1
 if [ $? -ne 0 ]
@@ -162,7 +165,8 @@ then
 fi
 
 # Stage 4) k8s - Setup a new Kubernetes Cluster
-echo "Run kube_install.yaml"
+# echo "Run kube_install.yaml"
+echo "Setting up a new Kubernetes Cluster on Kubernetes nodes."
 ansible-playbook -i inventory/sbx${POD_NUM}-hosts \
   --extra-vars "POD_NUM=${POD_NUM}" \
   kube_install.yaml >> ~/auto_deploy.log 2>&1
@@ -182,7 +186,7 @@ then
 fi
 
 # Stage 5) cni - Install ACI CNI plug-in for Kubernetes
-echo "Install ACI CNI Plugin"
+echo "Installing the ACI CNI plug-in for Kuberentes"
 cd ~/sbx_acik8s/kube_setup/aci_setup/sbx${POD_NUM}
 kubectl apply -f aci-containers.yaml  >> ~/auto_deploy.log 2>&1
 if [ $? -ne 0 ]
