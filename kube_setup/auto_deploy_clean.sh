@@ -1,5 +1,16 @@
 #! /bin/bash
 
+# Script to Automatically Reset the DevNet ACI/Kubernetes Sandbox
+
+# Notes on how to use this script
+# 1. Start VPN and ssh to the Devlopment Workstation in the pod
+# 2. Set session environment variable (for convenience)
+#   export POD_NUM=??
+#   export POD_PASS=??????
+# 3. Run the script
+#   ./auto_deploy_clean.sh ${POD_NUM} ${POD_PASS} 
+
+
 POD_NUM=$1
 POD_PASS=$2
 
