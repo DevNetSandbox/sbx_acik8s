@@ -102,7 +102,7 @@ The instructions in this quick start, as well as the learning labs accompanying 
 
 * [Cisco ACI and Kubernetes Integration](https://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/kb/b_Kubernetes_Integration_with_ACI.html)
 * [Kubernetes/Open Shift Troubleshooting cheat sheet](https://techzone.cisco.com/t5/Application-Centric/Kubernetes-Open-Shift-Troubleshooting-cheat-sheet/ta-p/1192315)
-* [Installing kubeadm](https://kubernetes.io/docs/tasks/tools/install-kubeadm/)
+* [Installing kubeadm](https://kubernetes.io/docs/setup/independent/install-kubeadm/)
 * [Using kubeadm to Create a Cluster](https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/)
 
 
