@@ -76,18 +76,19 @@ success () {
 
 # Stage 1) devbox Basic DevBox Setup
 echo "Setup DevBox with Development Tools and Repos"
-sudo yum install -y wget git nano sshpass >> ~/auto_deploy.log 2>&1
+sudo yum install -y wget git nano sshpass python3 >> ~/auto_deploy.log 2>&1
 wget https://bootstrap.pypa.io/get-pip.py  >> ~/auto_deploy.log 2>&1
-sudo python get-pip.py  >> ~/auto_deploy.log 2>&1
+sudo python3 get-pip.py  >> ~/auto_deploy.log 2>&1
 rm get-pip.py  >> ~/auto_deploy.log 2>&1
-sudo pip install virtualenv  >> ~/auto_deploy.log 2>&1
+export PATH="/usr/local/bin/:$PATH"
+pip3 install virtualenv  >> ~/auto_deploy.log 2>&1
 
 git clone https://github.com/DevNetSandbox/sbx_acik8s ~/sbx_acik8s >> ~/auto_deploy.log 2>&1
 cd ~/sbx_acik8s >> ~/auto_deploy.log 2>&1
 
 virtualenv venv >> ~/auto_deploy.log 2>&1
 source venv/bin/activate >> ~/auto_deploy.log 2>&1
-pip install -r kube_setup/requirements.txt  >> ~/auto_deploy.log 2>&1
+pip install -r kube_setup/requirements.txt --trusted-host pypi.python.org >> ~/auto_deploy.log 2>&1
 
 success
 echo " "
