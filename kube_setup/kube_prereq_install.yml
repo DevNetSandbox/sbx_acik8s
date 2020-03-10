@@ -22,13 +22,12 @@
 
 
     - name: Install Kubernetes tools
-      with_items:
-        - kubernetes-cni-0.5.1-1
-        - kubelet-1.7.15-0
-        - kubeadm-1.7.15-0
-        - kubectl-1.7.15-0
       yum:
-        name: "{{ item }}"
+        name:
+          - kubernetes-cni-0.5.1-1
+          - kubelet-1.7.15-0
+          - kubeadm-1.7.15-0
+          - kubectl-1.7.15-0
         state: present
 
     - name: IP Tables Fix
