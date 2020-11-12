@@ -78,7 +78,7 @@ success () {
 echo "Setup DevBox with Development Tools and Repos"
 sudo yum install -y wget git nano sshpass >> ~/auto_deploy.log 2>&1
 wget https://bootstrap.pypa.io/get-pip.py  >> ~/auto_deploy.log 2>&1
-sudo python get-pip.py  >> ~/auto_deploy.log 2>&1
+sudo python get-pip.py --trusted-host files.pythonhosted.org  >> ~/auto_deploy.log 2>&1
 rm get-pip.py  >> ~/auto_deploy.log 2>&1
 sudo pip install virtualenv  >> ~/auto_deploy.log 2>&1
 
